@@ -1,0 +1,8 @@
+[workspace]
+members = [
+    "crates/types",
+    "crates/macros",
+    "crates/interface",
+    "crates/wasi-faas",
+    "crates/example",
+]

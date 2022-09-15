@@ -1,0 +1,8 @@
+[package]
+name = "wasi-faas-interface"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+wasi-faas-macros = { path = "../macros", version = "0.1.0" }
+wasi-faas-types = { path = "../types", version = "0.1.0" }
