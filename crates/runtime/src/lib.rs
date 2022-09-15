@@ -4,6 +4,7 @@ use std::{
 };
 
 use wasi_common::pipe::{ReadPipe, WritePipe};
+use wasi_faas_runtime_http::{HttpCtx, HttpState};
 use wasmtime::{Config, Engine, Linker, Module, Store};
 use wasmtime_wasi::{tokio::WasiCtxBuilder, WasiCtx};
 
@@ -30,6 +31,14 @@ impl Runtime {
         // on tokio.
         let mut linker = Linker::new(&engine);
         wasmtime_wasi::tokio::add_to_linker(&mut linker, |cx| cx).unwrap();
+
+        let http_state = HttpState::new().unwrap();
+        http_state
+            .add_to_linker(&mut linker, |_| HttpCtx {
+                allowed_hosts: Some(vec!["unsafe://allow-all".into()]),
+                max_concurrent_requests: Some(10),
+            })
+            .unwrap();
 
         Runtime {
             engine,
