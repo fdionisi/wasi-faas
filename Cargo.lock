@@ -1422,19 +1422,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "wasi-faas"
-version = "0.1.0"
-dependencies = [
- "clap",
- "hyper",
- "tokio",
- "wasi-common",
- "wasi-faas-types",
- "wasmtime",
- "wasmtime-wasi",
-]
-
-[[package]]
 name = "wasi-faas-example"
 version = "0.1.0"
 dependencies = [
@@ -1456,6 +1443,19 @@ dependencies = [
  "quote",
  "syn",
  "wasi-faas-types",
+]
+
+[[package]]
+name = "wasi-faas-server"
+version = "0.1.0"
+dependencies = [
+ "clap",
+ "hyper",
+ "tokio",
+ "wasi-common",
+ "wasi-faas-types",
+ "wasmtime",
+ "wasmtime-wasi",
 ]
 
 [[package]]

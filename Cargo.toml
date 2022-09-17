@@ -3,6 +3,6 @@ members = [
     "crates/types",
     "crates/macros",
     "crates/interface",
-    "crates/wasi-faas",
+    "crates/server",
     "crates/example",
 ]
