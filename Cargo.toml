@@ -3,6 +3,8 @@ members = [
     "crates/types",
     "crates/macros",
     "crates/interface",
+    "crates/runtime",
     "crates/server",
+    "crates/cli",
     "crates/example",
 ]

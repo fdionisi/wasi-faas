@@ -3,15 +3,7 @@ name = "wasi-faas-server"
 version = "0.1.0"
 edition = "2021"
 
-[[bin]]
-name = "wasi-faas"
-path = "./src/main.rs"
-
 [dependencies]
-clap = { version = "3.2.21", features = ["derive"] }
 hyper = { version = "0.14.20", features = ["server", "http1", "tcp", "stream"] }
-tokio = { version = "1.21.1", features = ["rt", "macros"] }
-wasi-common = "0.40.1"
+wasi-faas-runtime = { path = "../runtime", version = "0.1.0" }
 wasi-faas-types = { path = "../types", version = "0.1.0" }
-wasmtime = "0.40.1"
-wasmtime-wasi = { version = "0.40.1", features = ["tokio"] }

@@ -1,5 +1,4 @@
 use std::{
-    fmt::Debug,
     path::Path,
     sync::{Arc, RwLock},
 };
@@ -80,11 +79,5 @@ impl Runtime {
         });
 
         buffer
-    }
-}
-
-impl Debug for Runtime {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "Runtime")
     }
 }

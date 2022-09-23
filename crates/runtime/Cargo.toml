@@ -1,0 +1,9 @@
+[package]
+name = "wasi-faas-runtime"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+wasi-common = "0.40.1"
+wasmtime = "0.40.1"
+wasmtime-wasi = { version = "0.40.1", features = ["tokio"] }

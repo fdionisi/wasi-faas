@@ -1,0 +1,15 @@
+[package]
+name = "wasi-faas-cli"
+version = "0.1.0"
+edition = "2021"
+
+[[bin]]
+name = "wasi-faas"
+path = "./src/main.rs"
+
+[dependencies]
+clap = { version = "3.2.21", features = ["derive"] }
+tokio = { version = "1.21.1", features = ["rt", "macros"] }
+wasi-faas-runtime = { path = "../runtime", version = "0.1.0" }
+wasi-faas-server = { path = "../server", version = "0.1.0" }
+
