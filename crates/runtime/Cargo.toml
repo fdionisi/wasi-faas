@@ -4,7 +4,8 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
-wasi-common = "0.40.1"
-wasi-faas-runtime-http = { path = "./ext/http", version = "0.1.0" }
-wasmtime = "0.40.1"
-wasmtime-wasi = { version = "0.40.1", features = ["tokio"] }
+hyper = { version = "0.14.20", features = ["server", "http1", "tcp", "stream"] }
+wasi-common = "1"
+wasi-faas-http-outbound = { path = "../extensions/http-outbound", version = "0.1.0" }
+wasmtime = "1"
+wasmtime-wasi = { version = "1", features = ["tokio"] }

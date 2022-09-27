@@ -1,0 +1,6 @@
+// Original: https://github.com/fermyon/spin/blob/f5c6a0881ed17084cba627b2ae2ce8805e92e355/wit/ephemeral/wasi-outbound-http.wit
+
+use * from http-types
+
+// Send an HTTP request and return a response or a potential error.
+request: func(req: request) -> result<response, http-error>

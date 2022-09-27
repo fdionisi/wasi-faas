@@ -1,9 +1,9 @@
 [workspace]
 members = [
     "crates/types",
-    "crates/macros",
-    "crates/interface",
-    "crates/runtime/ext/http",
+    "crates/sdk/macros",
+    "crates/sdk",
+    "crates/extensions/http-outbound",
     "crates/runtime",
     "crates/server",
     "crates/cli",

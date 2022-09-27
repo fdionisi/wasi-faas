@@ -38,18 +38,44 @@ pub fn handler(_: TokenStream, item: TokenStream) -> TokenStream {
 
         fn main() -> std::io::Result<()> {
             let req = {
-                let input = std::io::stdin()
-                    .lines()
-                    .fold(vec![], |result, l| [&result, l.unwrap().as_bytes()].concat());
+                let mut args = std::env::args();
 
-                <wasi_faas_interface::Request as wasi_faas_interface::Binary>::de(&input)
+                let method = args.next().unwrap();
+                let path = args.next().unwrap();
+
+                let mut builder = wasi_faas_sdk::http::request::Builder::new()
+                    .method(method.as_str())
+                    .uri(path);
+
+                for (k, v) in std::env::vars() {
+                    builder = builder.header(k, v);
+                }
+
+                let body = std::io::stdin()
+                    .lines()
+                    .fold(vec![], |result, l| [&result, l.unwrap().as_bytes()]
+                    .concat());
+
+                let body = wasi_faas_sdk::bytes::Bytes::from(body);
+
+                builder
+                    .body(body)
+                    .unwrap()
             };
 
-            let resp = #fn_ident(req);
-            let resp = wasi_faas_interface::Binary::ser(&resp);
+            let res = #fn_ident(req);
+
+            let res = wasi_faas_sdk::http::HttpInboundResponse {
+                status: res.status().as_u16(),
+                body: res.body().to_vec(),
+                headers: res.headers()
+                    .iter()
+                    .map(|(k, v)| (k.to_string(), String::from(v.to_str().unwrap())))
+                    .collect(),
+            };
 
             let mut stdout = std::io::stdout().lock();
-            std::io::Write::write_all(&mut stdout, &resp)?;
+            std::io::Write::write_all(&mut stdout, &res.ser())?;
 
             Ok(())
         }

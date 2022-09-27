@@ -1,4 +1,4 @@
-use std::{collections::HashMap, convert::Infallible, net::SocketAddr};
+use std::{convert::Infallible, net::SocketAddr};
 
 use hyper::{
     body::Bytes,
@@ -7,7 +7,7 @@ use hyper::{
     Body, Server as HyperServer,
 };
 use wasi_faas_runtime::Runtime;
-use wasi_faas_types::{Binary, Request, Response};
+use wasi_faas_types::HttpInboundResponse;
 
 pub struct Server(Runtime);
 
@@ -52,28 +52,29 @@ impl ServerBuilder {
 }
 
 async fn invoke(
-    hyper_req: hyper::Request<Body>,
+    req: hyper::Request<Body>,
     runtime: Runtime,
 ) -> Result<hyper::Response<Body>, Infallible> {
-    let path = hyper_req.uri().to_string();
-    let method = hyper_req.method().to_string();
-    let body = hyper::body::to_bytes(hyper_req.into_body())
+    let path = req.uri().to_string();
+    let method = req.method().to_string();
+
+    let headers: Vec<(String, String)> = req
+        .headers()
+        .iter()
+        .map(|(k, v)| (k.to_string(), format!("{}", v.to_str().unwrap())))
+        .collect();
+
+    let body = hyper::body::to_bytes(req.into_body())
         .await
         .unwrap()
         .to_vec();
-    let request = Request {
-        path,
-        method,
-        body,
-        headers: HashMap::default(),
-    };
 
-    let response = Response::de(&runtime.exec(request.ser()).await);
+    let res = runtime.exec(vec![method, path], headers, body).await;
 
-    let hyper_res = hyper::Response::builder()
-        .status(response.status)
-        .body(Body::from(Bytes::from(response.body)))
-        .unwrap();
+    let res = HttpInboundResponse::de(&res);
 
-    Ok(hyper_res)
+    Ok(hyper::Response::builder()
+        .status(res.status)
+        .body(Body::from(Bytes::from(res.body)))
+        .unwrap())
 }

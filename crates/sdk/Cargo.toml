@@ -1,0 +1,13 @@
+[package]
+name = "wasi-faas-sdk"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+bytes = "1"
+http = "0.2"
+wasi-faas-macros = { path = "./macros", version = "0.1.0" }
+wasi-faas-types = { path = "../types", version = "0.1.0" }
+
+[dependencies.wit-bindgen-guest-rust]
+git = "https://github.com/bytecodealliance/wit-bindgen"

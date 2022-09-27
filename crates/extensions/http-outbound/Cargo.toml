@@ -1,0 +1,24 @@
+[package]
+name = "wasi-faas-http-outbound"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+anyhow = "1.0.65"
+bytes = "1"
+futures = "0.3.24"
+hyper = { version = "0.14.20", features = ["client"] }
+# hyper = { version = "0.14.20", features = ["server", "http1", "tcp", "stream"] }
+reqwest = { version = "0.11", default-features = true, features = ["json", "blocking"] }
+thiserror = "1"
+url = "2.3.1"
+wasmtime = "1"
+wasi-faas-types = { path = "../../types", version = "0.1.0" }
+tokio = { version = "1.21.1", features = ["rt"] }
+async-trait = "0.1.57"
+
+[dependencies.wit-bindgen-host-wasmtime-rust]
+git = "https://github.com/bytecodealliance/wit-bindgen"
+features = ["async"]

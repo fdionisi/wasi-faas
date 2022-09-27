@@ -1,10 +1,16 @@
-use wasi_faas_interface::{handler, Request, Response};
+use wasi_faas_sdk::{
+    handler,
+    http::{request, send, Request, Response},
+};
 
 #[handler]
-fn main(req: Request) -> Response {
-    Response {
-        status: 201,
-        body: req.body,
-        ..Default::default()
-    }
+fn main(_: Request) -> Response {
+    send(
+        request::Builder::new()
+            .method("GET")
+            .uri("http://httpbin.org/get")
+            .body(vec![].into())
+            .unwrap(),
+    )
+    .unwrap()
 }

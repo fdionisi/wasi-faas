@@ -4,4 +4,4 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
-wasi-faas-interface = { path = "../interface", version = "0.1.0" }
+wasi-faas-sdk = { path = "../sdk", version = "0.1.0" }
